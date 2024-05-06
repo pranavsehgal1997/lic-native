@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 <html>
+    <link rel="stylesheet" href="styles.css">
 <body>
-
-<h1>LIC Native</h1>
-
-<p>Login Page</p>
-
+    <div class="main">
+        <h1>LIC Login</h1>
+        <h3>Complete setup by logging in with your new password & stay updated</h3>
+        <form action="">
+            <input type="text"
+                   id="userID"
+                   name="first"
+                   placeholder="Enter User Id/ Email Id/ Mobile No/ SR No" required>
+            <input type="password"
+                   id="password"
+                   name="password"
+                   placeholder="Enter your Password" required>
+            <div class="wrap">
+                <button type="submit"
+                        onclick="solve()">
+                    Continue
+                </button>
+            </div>
+        </form>
+        <p>Not registered?
+              <a id="createAccount"
+              onclick="createAccount()"
+               style="text-decoration: none;">
+                Create an account
+            </a>
+        </p>
+    </div>
+<script src="index.js"></script>
 </body>
 </html>
