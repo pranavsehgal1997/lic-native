@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<html>
-    <link rel="stylesheet" href="styles.css">
-<body>
+<html lang="en">
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <script src="index.js"></script>
+    <div class="login-container">
+      <h2>LIC Sign Up</h2>
 
-<div class="main">
-    <h1>LIC Signup</h1>
-    <form action="">
-    
-        <input type="text"
-               id="first"
-               name="first"
-               placeholder="Enter Email Id/ Mobile No" required>
-        <input type="password"
-               id="password"
-               name="password"
-               placeholder="Enter your Password" required>
-        <div class="wrap">
-            <button type="submit"
-                    onclick="solve()">
-                Continue
-            </button>
+      <form action="#" method="POST">
+        <div class="form-group">
+          <!-- <label for="username">User Id/ Email Id/ mobile No/ SR No</label> -->
+          <input
+            type="text"
+            id="userID"
+            name="username"
+            placeholder="Email Id/ mobile No"
+            required
+          />
         </div>
-    </form>
-    <p>Already registered?
-          <a href="https://pranavsehgal1997.github.io/lic-native/"
-           style="text-decoration: none;">
+        <div class="form-group">
+          <!-- <label for="password">Password</label> -->
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <button onclick="">Continue</button>
+        </div>
+        <p>
+          Already registered?
+          <a
+            href="https://pranavsehgal1997.github.io/lic-native/"
+            style="text-decoration: none"
+          >
             Login
-        </a>
-    </p>
-</div>
-
-</body>
+          </a>
+        </p>
+      </form>
+    </div>
+  </body>
 </html>

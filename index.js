@@ -1,13 +1,12 @@
 let imeiNumber = new URLSearchParams(window.location.search);
-console.log(imeiNumber);
 let imei = imeiNumber.get("imei");
-document.getElementById("userID").value = value;
+document.getElementById("userID").value = imei;
 
 function createAccount() {
   let imeiNumber = new URLSearchParams(window.location.search);
-  console.log(imeiNumber);
+
   let imei = imeiNumber.get("imei");
   window.location.replace(
-    `http://127.0.0.1:5500/createUser.html?imei=${imei}`
+    `https://pranavsehgal1997.github.io/lic-native/createUser.html?imei=${imei}`
   );
 }
