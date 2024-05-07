@@ -7,6 +7,6 @@ function createAccount() {
 
   let imei = imeiNumber.get("imei");
   window.location.replace(
-    `https://pranavsehgal1997.github.io/lic-native/createUser.html?imei=${imei}`
+    `http://127.0.0.1:5500/createUser.html?imei=${imei}`
   );
 }
