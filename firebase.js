@@ -1,4 +1,10 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQnHx5tIa-sWQf2ETLU9CyTXjPmzC02xM",
@@ -12,7 +18,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-// const auth = getAuth();
+const auth = getAuth();
 
 const signUp = async (email, password) => {
   try {
