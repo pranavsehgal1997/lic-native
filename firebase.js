@@ -20,7 +20,6 @@ const signUp = async (email, password) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log("User signed up successfully:", user);
-    // Redirect or perform any other action after sign up
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -33,7 +32,6 @@ const login = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log("User logged in successfully:", user);
-    // Redirect or perform any other action after login
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -45,7 +43,6 @@ const logout = async () => {
   try {
     await signOut(auth);
     console.log("User logged out successfully");
-    // Redirect or perform any other action after logout
   } catch (error) {
     console.error("Error logging out:", error);
   }
