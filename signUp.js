@@ -9,7 +9,10 @@ const handleSignUp = (e) => {
 
   console.log(email);
   console.log(password);
-  signUp(email, password);
+  let imeiNumber = new URLSearchParams(window.location.search);
+  let imei = imeiNumber.get("imei");
+  console.log("imei : ", imei);
+  signUp(email, password, imei);
 };
 
 button.addEventListener("click", handleSignUp);

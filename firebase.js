@@ -6,7 +6,7 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-import { getFirestore, collection, setDoc, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
+import { getFirestore, collection, setDoc, doc, addDoc, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQnHx5tIa-sWQf2ETLU9CyTXjPmzC02xM",
@@ -32,25 +32,40 @@ window.onload = function () {
   checkIMEIExistence(imei)
 }
 const db = getDatabase();
+const ddb = getFirestore();
 const firestore = getFirestore();
 const checkIMEIExistence = async (imei) => {
-  try {
-    const snapshot = await get(child(ref(db), `imeiMappings/${imei}`));
-    if (snapshot.exists()) {
-      const email = snapshot.val();
-      console.log("Email address found for IMEI:", email);
-      return email;
-    } else {
-      console.log("IMEI number does not exist:", imei);
-      // window.location.replace(`http://127.0.0.1:5500/createUser.html?imei=${imei}`)
-      return null;
-    }
-  } catch (error) {
-    console.error("Error checking IMEI existence:", error);
-    return null;
-  }
+
+  console.log(imei);
+  //const snapshot = await get(child(ref(db), `imeiMappings/${imei}`));
+  //const datab = firestore.collection("users").where("imei", "==", imei);
+  //console.log(datab)
+  const colRef = collection(ddb, 'users');
+  const q = query(colRef, where("imei", "==", imei))
+  onSnapshot(q, (snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      console.log(doc.data());
+      const email = doc.data().email
+      document.getElementById("userID").value = email;
+    })
+
+  })
+  //   if (snapshot.exists()) {
+  //     const email = snapshot.val();
+  //     console.log("Email address found for IMEI:", email);
+  //     document.getElementById("userID").value = email;
+  //     return email;
+  //   } else {
+  //     console.log("IMEI number does not exist:", imei);
+  //     // window.location.replace(`http://127.0.0.1:5500/createUser.html?imei=${imei}`)
+  //     return null;
+  //   }
+  // } catch (error) {
+  //   console.error("Error checking IMEI existence:", error);
+  //   return null;
+  // }
 };
-const signUp = async (email, password) => {
+const signUp = async (email, password, imei) => {
   try {
     console.log(email);
     console.log(password);
@@ -60,7 +75,17 @@ const signUp = async (email, password) => {
       password
     );
     const user = userCredential.user;
+    console.log("User logged in successfully:", user);
+    const data = {
+      email,
+      uid: user.uid,
+      imei,
+    }
+    // console.log(data);
+    const docRef = await setDoc(doc(collection(firestore, "users"), user.uid), data);
     console.log("User signed up successfully:", user);
+    window.open("./index.html");
+
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -78,14 +103,7 @@ const login = async (email, password, imei) => {
       password,
     );
     const user = userCredential.user;
-    console.log("User logged in successfully:", user);
-    const data = {
-      email,
-      uid: user.uid,
-      imei,
-    }
-    // console.log(data);
-    const docRef = await setDoc(doc(collection(firestore, "users"), user.uid), data);
+    document.getElementById("body").innerHTML = "<h2>You have logged in to the portal</h2>";
     console.log("Document written ");
   } catch (error) {
     const errorCode = error.code;
