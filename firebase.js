@@ -36,30 +36,28 @@ window.onload = function () {
   console.log("called");
   checkIMEIExistence(imei);
 };
+
 const db = getDatabase();
 const ddb = getFirestore();
 const firestore = getFirestore();
+
 const checkIMEIExistence = async (imei) => {
-  console.log(imei);
   //const snapshot = await get(child(ref(db), `imeiMappings/${imei}`));
   //const datab = firestore.collection("users").where("imei", "==", imei);
   //console.log(datab)
   const colRef = collection(ddb, "users");
   const q = query(colRef, where("imei", "==", imei));
+
   onSnapshot(q, (snapshot) => {
     snapshot.docs.forEach((doc) => {
-      console.log(doc.data());
       const email = doc.data().email;
       if (email) {
         document.getElementById("userID").value = email;
-      } else {
-        window.location.replace(
-          `https://pranavsehgal1997.github.io/lic-native/createUser.html?imei=${imei}`
-        );
       }
     });
   });
 };
+
 const signUp = async (email, password, imei) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
