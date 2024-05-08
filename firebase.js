@@ -5,6 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getDatabase, ref, set, child, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+import { getFirestore, collection, setDoc, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCQnHx5tIa-sWQf2ETLU9CyTXjPmzC02xM",
@@ -17,11 +19,41 @@ const firebaseConfig = {
   databaseUrl: "https://lic-auth-5ccc7-default-rtdb.firebaseio.com",
 };
 
+
 export const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
+
+
+window.onload = function () {
+  let imeiNumber = new URLSearchParams(window.location.search);
+  let imei = imeiNumber.get("imei");
+  console.log("called");
+  checkIMEIExistence(imei)
+}
+const db = getDatabase();
+const firestore = getFirestore();
+const checkIMEIExistence = async (imei) => {
+  try {
+    const snapshot = await get(child(ref(db), `imeiMappings/${imei}`));
+    if (snapshot.exists()) {
+      const email = snapshot.val();
+      console.log("Email address found for IMEI:", email);
+      return email;
+    } else {
+      console.log("IMEI number does not exist:", imei);
+      // window.location.replace(`http://127.0.0.1:5500/createUser.html?imei=${imei}`)
+      return null;
+    }
+  } catch (error) {
+    console.error("Error checking IMEI existence:", error);
+    return null;
+  }
+};
 const signUp = async (email, password) => {
   try {
+    console.log(email);
+    console.log(password);
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -36,16 +68,25 @@ const signUp = async (email, password) => {
   }
 };
 
-const login = async (email, password) => {
-  debugger;
+const login = async (email, password, imei) => {
+
+  // debugger;
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     const user = userCredential.user;
     console.log("User logged in successfully:", user);
+    const data = {
+      email,
+      uid: user.uid,
+      imei,
+    }
+    // console.log(data);
+    const docRef = await setDoc(doc(collection(firestore, "users"), user.uid), data);
+    console.log("Document written ");
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
