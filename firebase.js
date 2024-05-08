@@ -97,10 +97,9 @@ const login = async (email, password, imei) => {
       password
     );
     const user = userCredential.user;
-    if (user) {
-      document.getElementById("body").innerHTML =
-        "<h2>You have logged in to the portal</h2>";
-    }
+
+    document.getElementById("body").innerHTML =
+      "<h2>You have logged in to the portal</h2>";
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
